@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id='content'>
+        <table id='tables' cellpadding='10px' style="text-align:left;">
+            <thead>
+                <tr>
+                    <th>type</th>
+                    <th>Title</th>
+                    <th>tag</th>
+                    <th>pdfUrl</th>
+                </tr>                
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let xmlContent = '';
+        let tableBooks = document.getElementById('tables');
+        fetch('code.xml').then((response)=> {
+            response.text().then((xml)=>{
+                xmlContent = xml;
+
+                let parser = new DOMParser();
+                let xmlDOM = parser.parseFromString(xmlContent, 'application/xml');
+                let books = xmlDOM.querySelectorAll('item');
+
+                books.forEach(Tablessss => {
+
+                    let row = document.createElement('tr');
+
+                    //author
+                    let td = document.createElement('td');
+                    td.innerHTML='<a href="https://www.naver.com/">'
+                    td.innerText = Tablessss.children[0].innerHTML;
+
+                    row.appendChild(td);
+
+                    //  title
+                    td = document.createElement('td');
+                    td.innerText = Tablessss.children[6].innerHTML;
+                    row.appendChild(td);
+                    
+                    //price
+                    td = document.createElement('td');
+                    td.innerText = '$ ' + Tablessss.children[7].innerHTML;
+                    row.appendChild(td);
+
+                    //description
+                    td = document.createElement('td');
+                    td.innerText = Tablessss.children[9].innerHTML;
+                    row.appendChild(td);
+
+                    tableBooks.children[1].appendChild(row);
+                    
+                });
+                
+            });
+        });    
+    </script>
+</body>
+</html>
